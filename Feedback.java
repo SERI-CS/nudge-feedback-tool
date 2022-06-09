@@ -1,6 +1,9 @@
+import com.fasterxml.jackson.databind.*;
+import java.nio.file.*;
+
 public class Feedback {
     
-    private static String error;
+    //private static String errorName;
     
     public static void main(String args[]) {
         //Test m = new Test(); // Creating an instance from our class
@@ -15,15 +18,31 @@ public class Feedback {
             Test.main(arguments);
           }
           catch(Exception e) {
-            error = e.getClass().getCanonicalName();
-            System.out.print(error);
+            e.printStackTrace();
+            System.out.println("******************************\n" + findmsg(e) + "\n*******************************");
           }
     }
     
-    // public static String findmsg(String e) {
-    //     String msg = "unidentified error - go to office hours :/";
-    //     look up e in map, ret corresponding msg
-    //     return msg;
-    // }
+    public static String findmsg(Exception input) {
+        String content = "";
+        Error[] errors;
+        try{
+            Path filePath = Path.of("ErrorMap.json");
+            content = Files.readString(filePath);
+            ObjectMapper mapper = new ObjectMapper();
+            errors = mapper.readValue(content, Error[].class);
+        
+            String errorName = input.getClass().getCanonicalName();
+            for (Error error : errors) {
+                if (errorName.contains(error.getErr())) {
+                    return error.getMsg();
+                }
+            }
+        }
+        catch(Exception e) {
+            System.out.println("Exception");
+        }
+        return null;
+    }
     
 }

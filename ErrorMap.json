@@ -1,0 +1,8 @@
+ [
+    {"err" : "IndexOutOfBoundsException",
+    "msg" : "Review chapter on arrays, check the indices of the arrays you are accessing"},
+    {"err" : "NullPointerException",
+    "msg" : "Review chapter on null, did you forget to initialize something?"},
+    {"err" : "NoSuchElementException",
+    "msg" : "Did you add the element/are you looking for the right element"}
+]
