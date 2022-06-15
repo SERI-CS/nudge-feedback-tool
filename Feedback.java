@@ -3,23 +3,21 @@ import java.nio.file.*;
 
 public class Feedback {
     
-    //private static String errorName;
-    
     public static void main(String args[]) {
-        //Test m = new Test(); // Creating an instance from our class
         String[] arguments = new String[] {};
-        //Test.main(arguments);
         run(arguments);
     }
     
-    //runs student's main function with arguments
+    //runs student's main function with specified arguments
     public static void run(String[] arguments) { 
         try {
             Test.main(arguments);
           }
           catch(Exception e) {
             e.printStackTrace();
-            System.out.println("******************************\n" + findmsg(e) + "\n*******************************");
+            System.out.println("******************************\n" 
+            + findmsg(e) + 
+            "\n*******************************");
           }
     }
     
@@ -27,8 +25,7 @@ public class Feedback {
         String content = "";
         Error[] errors;
         try{
-            Path filePath = Path.of("ErrorMap.json");
-            content = Files.readString(filePath);
+            content = new String(Files.readAllBytes(Paths.get("ErrorMap.json")));
             ObjectMapper mapper = new ObjectMapper();
             errors = mapper.readValue(content, Error[].class);
         
