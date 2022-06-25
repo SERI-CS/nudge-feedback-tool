@@ -28,5 +28,7 @@
     {"err" : "IllegalStateException",
         "msg" : "Are you modifying a list while iterating through it?"},
     {"err" : "ClassCastException",
-        "msg" : "Check the objects you are casting, do they belong to that class hierarchy?"}  
+        "msg" : "Check the objects you are casting, do they belong to that class hierarchy?"},
+    {"err" : "FileNotFoundException",
+        "msg": "Make sure file is in the directory!"}  
 ]
