@@ -4,8 +4,7 @@ import java.nio.file.*;
 public class Feedback {
     
     public static void main(String args[]) {
-        String[] arguments = new String[] {};
-        run(arguments);
+        run(args);
     }
     
     //runs student's main function with specified arguments
