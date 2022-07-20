@@ -10,44 +10,50 @@ import java.util.concurrent.TimeoutException;
 
 public class Feedback {
     
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         run(args);
     }
     
     //runs student's main function with specified arguments
-    public static void run(String[] arguments) { 
+    public static void run(String[] arguments) {
         ExecutorService executor = Executors.newSingleThreadExecutor();
-            Future<?> future = executor.submit(() -> {
-            try { 
-            	Test.main(arguments);
-            } 
-			catch (Exception e) {
-                e.printStackTrace();
-                System.out.println("******************************\n" 
-                + findmsg(e) + 
-                "\n*******************************");
-            }
-			});
 
-			try {
-                Object returnValue = future.get(4, TimeUnit.SECONDS);
-                // if (returnValue == null || !returnValue.equals("Exception happened")) { 
-                //     runs = true;
-                // }              
+        Future<?> future = executor.submit(() -> {
+            try {
+        	Test.main(arguments);
             } catch (Exception e) {
                 e.printStackTrace();
-                System.out.println("******************************\n" 
-                + findmsg(e) + 
-                "\n*******************************");       
-            } finally {
-                executor.shutdownNow();
+                System.out.println("******************************\n"
+                    + findmsg(e) +
+                    "\n*******************************");
             }
+        });
+
+        try {
+            Object returnValue = future.get(10, TimeUnit.SECONDS);
+            // if (returnValue == null || !returnValue.equals("Exception happened")) {
+            //     runs = true;
+            // }
+        } catch (ExecutionException e) {
+            e.getCause().printStackTrace();
+            System.out.println("******************************\n"
+                    + findmsg(e.getCause()) +
+                    "\n*******************************");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("******************************\n"
+                    + findmsg(e) +
+                    "\n*******************************");
+        } finally {
+            executor.shutdownNow();
+            System.exit(0);
+        }
     }
     
-    public static String findmsg(Exception input) {
+    public static String findmsg(Throwable input) {
         String content = "";
         Error[] errors;
-        try{
+        try {
             content = new String(Files.readAllBytes(Paths.get("ErrorMap.json")));
             ObjectMapper mapper = new ObjectMapper();
             errors = mapper.readValue(content, Error[].class);
@@ -58,8 +64,7 @@ public class Feedback {
                     return error.getMsg();
                 }
             }
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             System.out.println("Exception");
         }
         return null;
