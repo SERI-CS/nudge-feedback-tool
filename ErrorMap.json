@@ -32,5 +32,7 @@
     {"err" : "FileNotFoundException",
         "msg": "Make sure the file is in the directory and that you are checking the correct file name!"},
     {"err" : "StackOverflowError",
-        "msg" : "Is your base case correct? \nIs your recursive step performing the right action to move toward the base case?"}
+        "msg" : "Is your base case correct? \nIs your recursive step performing the right action to move toward the base case?"},
+    {"err" : "AssertionError",
+        "msg" : "Failed test case"}
 ]

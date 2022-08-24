@@ -31,9 +31,6 @@ public class Feedback {
 
         try {
             Object returnValue = future.get(10, TimeUnit.SECONDS);
-            // if (returnValue == null || !returnValue.equals("Exception happened")) {
-            //     runs = true;
-            // }
         } catch (ExecutionException e) {
             e.getCause().printStackTrace();
             System.out.println("******************************\n"
