@@ -6,7 +6,7 @@ layout: default
 
 The SERICS Nudge-Feedback Tool is a program designed to provide additional feedback to students in introductory computer science courses when they encounter runtime errors in their programs.
 
-In _Feedback.java_, the main method of the desired program is run with the arguments that are passed into _Feedback.java_, and in _FeedbackTestCase.java_, the specified test file is run. Any runtime errors that occur during the execution of the desired program will be caught, and feedback will be printed into the terminal along with the standard error messages produced by Java.
+In _Feedback.java_, the main method of the desired program is run with the arguments that are passed into _Feedback.java_, and in _FeedbackTestCase.java_, all test cases in the specified test file are run. Any runtime errors that occur during the execution of the desired program will be caught, and feedback will be printed into the terminal along with the standard error messages produced by Java.
 
 
 * * *
@@ -80,9 +80,10 @@ Once again we need to include all the listed jars, as _Feedback.java_ requires t
 > **Note:** \\
 > Each jar in each of the example commands is on the same line. This is required in order for the command to work properly.
 >
-> Also, the above example is for **Homework 0**, which **does not** have any student-written test cases. To run feedback on test cases, we need to also include **junit-platform-console-standalone-1.3.2.jar** in our list of jars for the _"Compile"_ command, as junit is needed to run our tests:
+> Also, the above example is for **Homework 0**, which **does not** have any student-written test cases. To run feedback on test cases, we need to also include **junit-platform-console-standalone-1.3.2.jar** in our list of jars for the _"Compile"_ and _"Run"_ commands, as junit is needed to run our tests:
 ```json
 "Compile": "javac -cp cis110.jar:jackson-annotations-2.13.3.jar:jackson-core-2.13.3.jar:jackson-databind-2.13.3.jar:junit-platform-console-standalone-1.3.2.jar:. *.java"
+"Run Feedback": "java -cp junit-platform-console-standalone-1.3.2.jar:cis110.jar:jackson-annotations-2.13.3.jar:jackson-core-2.13.3.jar:jackson-databind-2.13.3.jar:. Feedback"
 ```
 
 
