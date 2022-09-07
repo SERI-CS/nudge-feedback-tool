@@ -1,12 +1,12 @@
 import com.fasterxml.jackson.databind.*;
+
+import java.lang.reflect.*;
 import java.nio.file.*;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 public class Feedback {
     
@@ -20,17 +20,23 @@ public class Feedback {
 
         Future<?> future = executor.submit(() -> {
             try {
-        	Test.main(arguments);
+                Method mainMethod = Class.forName("Test").getMethod("main", String[].class);
+                mainMethod.invoke(null, (Object) arguments);
+            } catch (InvocationTargetException e) {
+                e.getCause().printStackTrace();
+                System.out.println("******************************\n" +
+                        findmsg(e.getCause()) +
+                        "\n*******************************");
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("******************************\n"
-                    + findmsg(e) +
-                    "\n*******************************");
+                        + findmsg(e) +
+                        "\n*******************************");
             }
         });
 
         try {
-            Object returnValue = future.get(10, TimeUnit.SECONDS);
+            future.get(10, TimeUnit.SECONDS);
         } catch (ExecutionException e) {
             e.getCause().printStackTrace();
             System.out.println("******************************\n"

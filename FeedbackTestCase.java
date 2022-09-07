@@ -1,22 +1,15 @@
 import com.fasterxml.jackson.databind.*;
 import java.nio.file.*;
-import java.util.*;
-import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 public class FeedbackTestCase {
     
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         run(args);
     }
 
@@ -25,8 +18,8 @@ public class FeedbackTestCase {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Future<?> future = executor.submit(() -> {
             try { 
-                Class testObj = ClassName.class;
-                ClassName test = new ClassName();
+                Class<Test> testObj = CLASSNAME.class;
+                CLASSNAME test = new CLASSNAME();
                 for (Method method : testObj.getMethods()) {
                     method.invoke(test, new Object[0]);
                 }
@@ -36,10 +29,10 @@ public class FeedbackTestCase {
                 + findmsg(e.getCause()) + 
                 "\n*******************************");
             }
-		});
+        });
 
         try {
-            Object returnValue = future.get(8, TimeUnit.SECONDS);
+            future.get(8, TimeUnit.SECONDS);
         } catch (ExecutionException e) {
             e.getCause().printStackTrace();
             System.out.println("******************************\n"
@@ -59,7 +52,7 @@ public class FeedbackTestCase {
     public static String findmsg(Throwable input) {
         String content = "";
         Error[] errors;
-        try{
+        try {
             content = new String(Files.readAllBytes(Paths.get("ErrorMap.json")));
             ObjectMapper mapper = new ObjectMapper();
             errors = mapper.readValue(content, Error[].class);
@@ -70,8 +63,7 @@ public class FeedbackTestCase {
                     return error.getMsg();
                 }
             }
-        }
-        catch(Exception e) {
+        } catch(Exception e) {
             System.out.println("Exception");
         }
         return null;

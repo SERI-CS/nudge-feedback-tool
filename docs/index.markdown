@@ -125,14 +125,14 @@ args[] = ["crack", "encrypted_message.txt", "english.txt"]
 ## Configuration for Test Cases 
 To run all the test cases in a file, run _FeebackTestCase.java_ instead of _Feedback.java_. \\
 \\
-In the try block, replace all instances of “ClassName” in the example code with the name of the class where the tests are located. Below is an example of running all the tests in _FingerExercisesTests.java._ 
+In the try block, replace all instances of “CLASSNAME” in the example code with the name of the class where the tests are located. Below is an example of running all the tests in _FingerExercisesTests.java._ 
 
 ```java
 Future<?> future = executor.submit(() -> {
     // runs tests in specified file
     try {
-        Class testObj = ClassName.class;
-        ClassName test = new ClassName();
+        Class testObj = CLASSNAME.class;
+        CLASSNAME test = new CLASSNAME();
         for (Method method : testObj.getMethods()) {
             method.invoke(test, new Object[0]);
         }
