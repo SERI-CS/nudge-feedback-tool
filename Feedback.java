@@ -1,19 +1,47 @@
-import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.lang.reflect.*;
-import java.nio.file.*;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
+import javax.tools.*;
+import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.concurrent.*;
 
 public class Feedback {
     
     public static void main(String[] args) {
+        compile();
         run(args);
     }
-    
+
+    public static void compile() {
+        try {
+            JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+            DiagnosticCollector<JavaFileObject> dc = new DiagnosticCollector<>();
+
+            try (StandardJavaFileManager fm = compiler.getStandardFileManager(dc, null, null)) {
+                File file = new File("Test.java");
+                Iterable<? extends JavaFileObject> sources = fm.getJavaFileObjectsFromFiles(Arrays.asList(file));
+                JavaCompiler.CompilationTask task = compiler.getTask(null, fm, dc, null, null, sources);
+                task.call();
+            }
+            if (!dc.getDiagnostics().isEmpty()) {
+                for (Diagnostic <? extends JavaFileObject> d: dc.getDiagnostics()) {
+                    System.out.format("Line: %d, %s in %s \n",
+                            d.getLineNumber(),
+                            d.getMessage(null),
+                            d.getSource().getName());
+                }
+                System.exit(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
     //runs student's main function with specified arguments
     public static void run(String[] arguments) {
         ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -72,5 +100,4 @@ public class Feedback {
         }
         return null;
     }
-    
 }
