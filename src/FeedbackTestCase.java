@@ -25,14 +25,18 @@ public class FeedbackTestCase {
                     try {
                         if (method.getDeclaringClass().getCanonicalName().equals("CLASSNAME")) {
                             method.invoke(test, new Object[0]);
+                            System.out.println("Test case passed: " + method.getName() + "\n");
                         }
                     } catch (Exception e) {                        
                         if (!isExceptionExpected(method, e.getCause())) {
+                            System.out.println("Error in test case: " + method.getName());
                             e.getCause().printStackTrace();
                             System.out.println("******************************\n" 
                             + findmsg(e.getCause()) + 
                             "\n*******************************\n");
-                        }   
+                        } else {
+                            System.out.println("Test case passed: " + method.getName() + "\n");
+                        }
                     }
                 }
             } catch (Exception e) {
